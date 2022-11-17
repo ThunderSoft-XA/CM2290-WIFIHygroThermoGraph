@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths" lang="en"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Try HiveMQ MQTT browser client – a websocket client that you can use to experiment with publishing and subscribing MQTT messages over port 8000">
+    <title>MQTT Websocket Client</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/jquery.minicolors.css">
+    <link rel="stylesheet" href="css/jquery.fancybox.min.css">
+<style type="text/css">.fancybox-margin{margin-right:0px;}</style></head>
+<body class="notconnected">
+<div id="content" class="row">
+<div id="connection" class="row large-12 columns">
+
+    <div class="large-8 columns conniTop">
+        <h3>Connection</h3>
+    </div>
+
+    <div class="large-1 columns conniStatus">
+        <div id="connectionStatus"></div>
+    </div>
+
+    <div class="large-2 columns conniArrow">
+        <a class="small bottom conniArrow" onclick="websocketclient.render.toggle('conni');">
+            <div class="icon-arrow-chevron"></div>
+        </a>
+    </div>
+    <div class="large-12 columns" id="conniMain">
+        <div class="panel">
+            <div class="row">
+                <form class="custom">
+                    <div class="large-5 columns">
+                        <label>Host</label>
+                        <input id="urlInput" type="text" value="192.168.0.1">
+                    </div>
+
+                    <div class="large-1 columns">
+                        <label>Port</label>
+                        <input id="portInput" type="text" value="8080">
+                    </div>
+
+                    <div class="large-4 columns">
+                        <label>ClientID</label>
+                        <input id="clientIdInput" type="text" value="clientId-rzsj7qweQc">
+                    </div>
+
+                    <div class="large-2 columns">
+                        <a id="connectButton" class="small button" onclick="websocketclient.connect();">Connect</a>
+                    </div>
+
+                    <div class="large-2 columns">
+                        <a id="disconnectButton" class="small button" onclick="websocketclient.disconnect();">Disconnect</a>
+                    </div>
+
+                    <div class="large-4 columns">
+                        <label>Username</label>
+                        <input id="userInput" type="text">
+                    </div>
+
+                    <div class="large-3 columns">
+                        <label>Password</label>
+                        <input id="pwInput" type="password">
+                    </div>
+
+                    <div class="large-2 columns">
+                        <label>Keep Alive</label>
+                        <input id="keepAliveInput" type="text" value="60">
+                    </div>
+
+                    <div class="large-1 columns">
+                        <label>SSL</label>
+                        <input id="sslInput" type="checkbox" class="hidden-field"><span class="custom checkbox"></span>
+                    </div>
+
+                    <div class="large-2 columns">
+                        <label>Clean Session</label>
+                        <input class="checky hidden-field" id="cleanSessionInput" type="checkbox" checked="checked" disabled="disabled"><span class="custom checkbox checked disabled"></span>
+                    </div>
+
+                    <div class="large-8 columns">
+                        <label>Last-Will Topic</label>
+                        <input id="lwTopicInput" type="text">
+                    </div>
+
+                    <div class="large-2 columns">
+                        <label>Last-Will QoS</label>
+                        <select id="lwQosInput" class="hidden-field" data-id="1666341529917-lOGM1">
+                            <option selected="selected">0</option>
+                            <option>1</option>
+                            <option>2</option>
+                        </select><div class="custom dropdown" data-id="1666341529917-lOGM1"><a href="#" class="current">0</a><a href="#" class="selector"></a><ul><li class="selected">0</li><li class="">1</li><li class="">2</li></ul></div>
+                    </div>
+
+                    <div class="large-2 columns">
+                        <label>Last-Will Retain</label>
+                        <input class="checky hidden-field" id="LWRInput" type="checkbox"><span class="custom checkbox"></span>
+                    </div>
+
+                    <div class="large-12 columns">
+                        <label>Last-Will Messsage</label>
+                        <textarea id="LWMInput"></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="empty"></div>
+<div id="show" class="row1 pos-1 columns1">
+    <div class="pos2 columns1 showTop">
+        <h3>INFO</h3>
+    </div>
+    <div class="panel">
+        <div class="row1">
+            <form class="data">
+                <div class="pos-3 columns1">
+                    <label>室内温度</label>
+                    <img src="images/tem.jpeg" id="tempic">
+                    <label id="temValue">23.9 <span class="superscript">°C</span></label>
+                </div>
+                <div class="pos-4 columns1">
+                    <label>室内湿度</label>
+                    <img src="images/hum.jpeg" id="humpic">
+                    <label id="humValue">50.0 <span class="superscript">%</span></label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<div class="empty"></div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/lodash.min.js"></script>
+<script src="js/jquery.fancybox.min.js"></script>
+<script src="js/foundation.min.js"></script>
+<script src="js/foundation.forms.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/moment.min.js"></script>
+<script src="js/jquery.minicolors.min.js"></script>
+<script src="js/mqttws31.js"></script>
+<script src="js/encoder.js"></script>
+<script src="js/app.js"></script>
+
+<script>
+
+    function randomString(length) {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < length; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return text;
+    }
+
+    $(document).foundation();
+    $(document).ready(function () {
+        $('#clientIdInput').val('clientId-' + randomString(10));
+
+        // websocketclient.render.toggle('messages');
+    });
+    $('#tempic').bind('click',function(){
+        websocketclient.subscribe('data/tem', 0, 255);
+    });
+
+    $('#humpic').bind('click',function(){
+        websocketclient.subscribe('data/hum', 0, 255);
+    });
+
+</script>
+
+
+</body></html>
