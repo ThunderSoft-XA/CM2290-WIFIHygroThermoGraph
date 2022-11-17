@@ -1,0 +1,1 @@
+This video demonstrates the wifi thermohygrometer project. After executing the startup script, connect to wifi with your mobile phone, access 192.168.0.1:8080 on the web, and view the data through the mobile phone browser.
